@@ -12,19 +12,9 @@ OUTFILE=../outfile.zip
 echo "Compiling the report..."
 
 latexmk -cd -shell-escape -silent -pdf report/report.tex 
-cp report/report.pdf .
 
-
-cd src
-
-# <clean stuff up>
-
-cd ..
 
 # zip it (excluding useless stuff)
 echo "Zipping..."
-zip -r $OUTFILE . -x zip.sh report/\* \*.git\* img/\* *__pycache__/\* .venv/\* build/\* .vscode/\*
+zip -r $OUTFILE report/report.pdf src/notebook.ipynb
 
-# cleanup
-echo "Cleaning up..."
-rm report.pdf
