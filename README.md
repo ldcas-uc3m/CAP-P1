@@ -32,6 +32,7 @@ Ayudas:
     df = spark.read.format("csv").option("inferSchema", "true").option("timestampFormat","yyyy-MM-dd HH:mm:ss").option("header", "true").option("mode", "DROPMALFORMED").load("/content/tripdata_2017-1.csv")
     ```
 - [Listado de funciones Apache Spark SQL](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/functions.html)
+- [Listado de transformaciones y acciones para RDDs en Apache Spark](https://spark.apache.org/docs/latest/rdd-programming-guide.html#transformations)
 
 
 
