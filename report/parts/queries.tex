@@ -3,8 +3,26 @@
 
 \subsection{Velocidad media de los taxis en función de la hora}
 % RDDs
+Para calcular la velocidad media de los taxis es necesario dividir la distancia recorrida entre el tiempo. Dado que la distancia (\textbf{\textit{trip\_distance}}) está en millas, y el tiempo (\textbf{\textit{tpep\_dropoff\_datetime}} - \textbf{\textit{tpep\_pickup\_datetime}}) en segundos, es necesario convertir a millas por segundo.
+
+La fórmula quedaría:
+\begin{equation}\label{eq:q1}
+  mean\_mph = \frac{trip\_distance}{tpep\_dropoff\_datetime - tpep\_pickup\_datetime} \cdot \frac{3600\ s}{1\ h}
+\end{equation}
+
+
+Para realizar ésta query se ha usado el método de \textit{RDD}s. Para ello, se han seguido los siguientes pasos:
+\begin{enumerate}
+  \item Transformar cada entrada en una tupla con la hora de salida y la velocidad media del viaje, calculada mediante la Ecuación \ref{eq:q1} (\textit{map}).
+  \item Calcular la media de las velocidades por cada hora (\textit{reduce}).
+  \item Ordenar las horas en orden ascendente (\textit{sort}).
+\end{enumerate}
+
+\noindent
+El resultado de la \textit{query} queda ilustrado en la \figref{q1}.
 
 \svgfigure[.7]{q1}{Resultado de la \textit{query} 1}
+
 
 
 \subsection{Viajes en taxi más comunes}
@@ -16,7 +34,9 @@
 
 
 
+
 \subsection{Porcentaje de propina por número de pasajeros}
 % PysparkSQL
+
 
 \svgfigure[.7]{q3}{Resultado de la \textit{query} 3}
