@@ -29,7 +29,7 @@ El resultado final queda ilustrado en la \figref{q1}.
 \subsection{Consulta 2: Viajes en taxi más comunes}
 % SQL / Pyspark SQL / RDDs
 Para identificar el viaje más común, es necesario crear grupos para cada trayecto posible, y contar el número de elementos en cada grupo.
-Un trayecto, en nuestro caso, es definido cómo una ruta cualquiera desde una zona inicial (\textbf{\textit{PULocationID}}) a una zona final (\textbf{\textit{DOLocationID}}).\footnote{\textit{Se ha decidido excluir la zona con ID 264, ya que pertenece a una zona indeterminada.}}
+Un trayecto, en nuestro caso, es definido cómo una ruta cualquiera desde una zona inicial (\textbf{\textit{PULocationID}}) a una zona final (\textbf{\textit{DOLocationID}}).\footnote{\textit{Se ha excluido la zona con ID 264, porque pertenece a una zona indeterminada.}}
 
 A continuación, sin perder de vista el objetivo principal de obtener el viaje más común, se utilizan tres métodos de resolución distintos junto a sus respectivos pasos de ejecución, con el propósito de probar y comparar su velocidad de ejecución: \textit{SQL}, \textit{PySpark SQL}, y \textit{RDD}s.
 

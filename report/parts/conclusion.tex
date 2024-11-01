@@ -1,2 +1,10 @@
 \section{Conclusiones}
-% moraleja: RDD lento porque ???, SQL rápido porque ???
+El análisis de los datos de \textbf{YellowCab} en Nueva York, correspondiente a julio de 2024, ha permitido extraer estadísticas clave de los viajes y estudiar la eficiencia de tres enfoques de procesamiento en \textit{PySpark}: \textit{SQL}, \textit{PySpark SQL} y \textit{RDD}s.
+
+La primera etapa de preprocesado fue esencial para asegurar la calidad de los datos, eliminando valores nulos y datos inconsistentes que podían distorsionar el análisis. Este paso, que incluyó normalizaciones y filtrados, contribuyó a la precisión y consistencia de los resultados.
+
+En segundo lugar, las consultas realizadas permitieron obtener información sobre la velocidad media de los taxis, los trayectos más comunes y el porcentaje de propinas en función del número de pasajeros. Una gran visión detallada del comportamiento de los taxis de la compañía \textbf{YellowCab}.
+
+En tercer lugar, la comparación entre \textit{SQL}, \textit{PySpark SQL} y \textit{RDD}s mostró que \textit{PySpark SQL} es la opción más eficiente en términos de tiempo de ejecución y escalabilidad. \textit{SQL} y \textit{PySpark SQL} tuvieron un rendimiento similar en consultas más simples, pero \textit{PySpark SQL} demostró mayor ventaja en escalabilidad y frente a conjuntos de datos de gran tamaño. Los \textit{RDD}s, aunque proporcionan un mejor control de la información, resultaron considerablemente más lentos, especialmente en operaciones de agrupación y ordenamiento.
+
+En definitiva, queda evidenciada la importancia de seleccionar herramientas optimizadas para el procesamiento de grandes datos.
