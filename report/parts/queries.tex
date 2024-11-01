@@ -1,8 +1,8 @@
-\section{Queries}
-Se han realizado tres \textit{queries} diferentes sobre el \textit{dataset}, mediante tres métodos distintos que proporciona Pyspark.
+\section{Consultas}
+Se han realizado tres \textit{queries} diferentes sobre el \textit{dataset}, mediante tres métodos distintos que proporciona \textit{Pyspark}.
 
 
-\subsection{\textit{Query} 1: Velocidad media de los taxis en función de la hora}
+\subsection{Consulta 1: Velocidad media de los taxis en función de la hora}
 % RDDs
 Para calcular la velocidad media de los taxis es necesario dividir la distancia recorrida entre el tiempo. Dado que la distancia (\textbf{\textit{trip\_distance}}) está en millas, y el tiempo (\textbf{\textit{tpep\_dropoff\_datetime}} - \textbf{\textit{tpep\_pickup\_datetime}}) en segundos, es necesario convertir a millas por hora.
 
@@ -12,7 +12,7 @@ La fórmula quedaría:
 \end{equation}
 
 
-Para realizar ésta query se ha usado el método de \textit{RDD}s. Para ello, se han seguido los siguientes pasos:
+Para realizar esta consulta, se ha usado el método de \textit{RDD}s. Para ello, se han seguido los siguientes pasos:
 \begin{enumerate}
   \item Transformar cada entrada en una tupla con la hora de salida y la velocidad media del viaje, calculada mediante la Ecuación \ref{eq:q1} (\textit{map}).
   \item Calcular la media de las velocidades por cada hora (\textit{reduce}).
@@ -20,55 +20,49 @@ Para realizar ésta query se ha usado el método de \textit{RDD}s. Para ello, se
 \end{enumerate}
 
 \noindent
-El resultado de la \textit{query} queda ilustrado en la \figref{q1}.
+El resultado final queda ilustrado en la \figref{q1}.
 
-\svgfigure[.7]{q1}{Resultado de la \textit{query} 1}
+\svgfigure[.7]{q1}{Resultado de la consulta 1}
 
 
 
-\subsection{\textit{Query} 2: Viajes en taxi más comunes}
+\subsection{Consulta 2: Viajes en taxi más comunes}
 % SQL / Pyspark SQL / RDDs
-Para identificar el viaje más común es necesario crear grupos para cada trayecto posible, y contar el número de elementos en cada grupo.
-Un trayecto, en nuestro caso, es definido cómo una ruta cualquiera desde una zona inicial (\textbf{\textit{PULocationID}}) a una zona final (\textbf{\textit{DOLocationID}}).
+Para identificar el viaje más común, es necesario crear grupos para cada trayecto posible, y contar el número de elementos en cada grupo.
+Un trayecto, en nuestro caso, es definido cómo una ruta cualquiera desde una zona inicial (\textbf{\textit{PULocationID}}) a una zona final (\textbf{\textit{DOLocationID}}).\footnote{\textit{Se ha decidido excluir la zona con ID 264, ya que pertenece a una zona indeterminada.}}
 
-Se ha decidido excluir la zona con ID 264, ya que pertenece a una zona indeterminada.
+A continuación, sin perder de vista el objetivo principal de obtener el viaje más común, se utilizan tres métodos de resolución distintos junto a sus respectivos pasos de ejecución, con el propósito de probar y comparar su velocidad de ejecución: \textit{SQL}, \textit{PySpark SQL}, y \textit{RDD}s.
 
-En este caso, se prueban tres métodos distintos para comparar su velocidad de ejecución: \textit{SQL}, \textit{ PySpark SQL}, y\textit{RDD}s.
-
-
+\newpage
 \subsubsection*{\textit{SQL}}
 \begin{enumerate}
-  \item Agrupar por trayectos entre dos zonas (\textit{GROUP BY}).
-  \item Ordenar en orden descendente por la cantidad de viajes (\textit{DESC}).
+  \item Agrupar por trayectos entre dos zonas, utilizando cláusulas \textit{GROUP BY}.
+  \item Ordenar en orden descendente (\textit{DESC}) en función de la cantidad de viajes.
 \end{enumerate}
-
 
 \subsubsection*{\textit{PySpark SQL}}
 \begin{enumerate}
-  \item Agrupar por trayectos entre dos zonas (\textit{groupBy}).
-  \item Contar los elementos de cada grupo (\textit{count})
-  \item Ordenar en orden descendente por la cantidad de viajes (\textit{DESC}).
+  \item Agrupar por trayectos entre dos zonas con la operación \textit{groupBy()}.
+  \item Contar los elementos de cada grupo utilizando \textit{count()}.
+  \item Ordenar en orden descendente la cantidad de viajes empleando \textit{orderBy(desc([...]))}.
 \end{enumerate}
-
 
 \subsubsection*{\textit{RDD}s}
 \begin{enumerate}
-  \item Agrupar en una tupla conteniendo las dos zonas y una variable que cuenta el número de elementos (\textit{map}).
+  \item Agrupar en una tripleta las dos zonas y un contador del número de elementos (\textit{map}).
   \item Contar los elementos de cada grupo (\textit{reduceByKey()})
 \end{enumerate}
 
 
 \subsubsection*{Evaluación de la eficiencia}
-Como podemos observar en la gráfica mostrando el tiempo de ejecución para las distintas queries de la segunda pregunta, el método de \textit{RDD}s tiene una peor eficiencia comparando con \textit{SQL} o \textit{PySpark SQL}.
+Se observa en la \figref{q2_perf}, que el tiempo de ejecución de las consultas recogidas en este segundo apartado, es muy competitivo para \textit{SQL} y \textit{PySpark SQL}, a diferencia del método de \textit{RDD}s que tiene un peor rendimiento, incluso en ocasiones doblando el tiempo de sus adversarios.
 
-\svgfigure[.7]{q2_perf}{Eficiencia de las \textit{query} 2}
+\svgfigure[.7]{q2_perf}{Eficiencia de la consulta 2}
 
-
-
-
-\subsection{\textit{Query} 3: Porcentaje de propina por número de pasajeros}
+\newpage
+\subsection{Consulta 3: Porcentaje de propina por número de pasajeros}
 % PysparkSQL
-Para comparar el porcentaje de propina por número de pasajeros es necesario hallar el valor de la propina \textbf{\textit{Tip\_amount}} con respecto al coste total del viaje \textbf{\textit{Total\_amount}}.
+Para comparar el porcentaje de propina por número de pasajeros es necesario hallar el valor de la propina \textbf{\textit{Tip\_amount}} en función del coste total del viaje \textbf{\textit{Total\_amount}}.
 
 Para calcular el porcentaje de propina se usa la siguiente fórmula:
 \begin{equation}\label{eq:q3}
@@ -76,15 +70,14 @@ Para calcular el porcentaje de propina se usa la siguiente fórmula:
 \end{equation}
 
 
-Para realizar ésta query se ha usado el método de \textit{PySpark SQL}. Para ello, se han seguido los siguientes pasos:
+Para elaborar esta consulta se ha empleado \textit{PySpark SQL}. Para ello, se han seguido los siguientes pasos:
 \begin{enumerate}
-  \item Calcular el porcentaje de propina por cada entrada, mediante la Ecuación \ref{eq:q3}.
-  \item Agrupar los resultados por número de pasajeros (\textit{groupBy}) y calcular la media (\textit{avg}).
-  \item Ordenar los resultados en orden ascendente de pasajeros (\textit{sort}).
+  \item Calcular el porcentaje de propina por cada entrada, con la Ecuación \ref{eq:q3}.
+  \item Agrupar los resultados por número de pasajeros utilizando \textit{groupBy()} y calcular la media con \textit{avg()}.
+  \item Ordenar los resultados en orden ascendente de pasajeros con la operación \textit{sort()}.
 \end{enumerate}
 
-
 \noindent
-El resultado de la \textit{query} queda ilustrado en la \figref{q3}.
+El resultado final queda ilustrado en la \figref{q3}.
 
-\svgfigure[.7]{q3}{Resultado de la \textit{query} 3}
+\svgfigure[.7]{q3}{Resultado de la consulta 3}
