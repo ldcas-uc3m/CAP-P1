@@ -6,9 +6,9 @@ Universidad Carlos III de Madrid
 
 
 ## Enunciado de la práctica
-El conjunto de datos contiene los registros de la compañía _YellowCab_ de Nueva York en término de viajes en taxi. Cada entrada incluye campos que capturan las fechas y horas de recogida y entrega, los lugares de recogida y entrega, las distancias del viaje, las tarifas detalladas, los tipos de tarifas, los tipos de pago y los recuentos de pasajeros comunicados por el conductor. Los datos utilizados en los conjuntos de datos adjuntos fueron recopilados y proporcionados a la Comisión de Taxis y Limusinas de la Ciudad de Nueva York.
+El conjunto de datos es [TLC Trip Record Data]((https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page)), el cual contiene los registros de la compañía _YellowCab_ de Nueva York en término de viajes en taxi. Cada entrada incluye campos que capturan las fechas y horas de recogida y entrega, los lugares de recogida y entrega, las distancias del viaje, las tarifas detalladas, los tipos de tarifas, los tipos de pago y los recuentos de pasajeros comunicados por el conductor. Los datos utilizados en los conjuntos de datos adjuntos fueron recopilados y proporcionados a la Comisión de Taxis y Limusinas de la Ciudad de Nueva York.
 
-Puede encontrar más información del conjunto de datos en [el siguiente enlace](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page).
+Puede encontrar más información del conjunto de datos en [el siguiente enlace](https://www.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf).
 
 Realice los estudios que considere necesarios sobre los datos que contiene. Es obligatorio proporcionar al menos tres estudios.  
 Ejemplos de estudios:
