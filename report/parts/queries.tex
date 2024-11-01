@@ -1,9 +1,9 @@
 \section{Queries}
 
 
-\subsection{Velocidad media de los taxis en función de la hora}
+\subsection{Query 1: Velocidad media de los taxis en función de la hora}
 % RDDs
-Para calcular la velocidad media de los taxis es necesario dividir la distancia recorrida entre el tiempo. Dado que la distancia (\textbf{\textit{trip\_distance}}) está en millas, y el tiempo (\textbf{\textit{tpep\_dropoff\_datetime}} - \textbf{\textit{tpep\_pickup\_datetime}}) en segundos, es necesario convertir a millas por segundo.
+Para calcular la velocidad media de los taxis es necesario dividir la distancia recorrida entre el tiempo. Dado que la distancia (\textbf{\textit{trip\_distance}}) está en millas, y el tiempo (\textbf{\textit{tpep\_dropoff\_datetime}} - \textbf{\textit{tpep\_pickup\_datetime}}) en segundos, es necesario convertir a millas por hora.
 
 La fórmula quedaría:
 \begin{equation}\label{eq:q1}
@@ -25,18 +25,61 @@ El resultado de la \textit{query} queda ilustrado en la \figref{q1}.
 
 
 
-\subsection{Viajes en taxi más comunes}
-% RDDs / SQL / Pyspark SQL
+\subsection{Queries 2: Viajes en taxi más comunes}
+% SQL / Pyspark SQL / RDDs
+Para identificar el viaje más común es necesario crear grupos para cada trayecto posible, y contar el número de elementos en cada grupo.
+Un trayecto, en nuestro caso, es definido cómo una ruta cualquiera desde una zona inicial (\textbf{\textit{PULocationID}}) a una zona final (\textbf{\textit{DOLocationID}}).
+
+En este caso, se prueban tres métodos distintos para comparar su velocidad de ejecución: \textit{SQL}, \textit{ PySpark SQL}, y\textit{RDDs}.
+
+Para esta query se ha usado el método de \textit{SQL}. 
+\begin{enumerate}
+  \item Seleccionar las zonas de inicio y final del trayecto, crear una variable que cuenta el número de elementos en los grupos (\textit{SELECT}).
+  \item Descartar las zonas desconocidas con ID 264 (\textit{WHERE}).
+  \item Agrupar por trayectos entre dos zonas (\textit{GROUP BY}).
+  \item Ordenar en orden descendente por la cantidad de viajes (\textit{DESC}).
+\end{enumerate}
+
+Para esta query se ha usado el método de \textit{PySpark SQL}. 
+\begin{enumerate}
+  \item Seleccionar las zonas de inicio y final del trayecto (\textit{select}).
+  \item Descartar las zonas desconocidas con ID 264 (\textit{where}).
+  \item Agrupar por trayectos entre dos zonas (\textit{groupBy}).
+  \item Contar los elementos de cada grupo (\textit{count()})
+  \item Ordenar en orden descendente por la cantidad de viajes (\textit{DESC}).
+\end{enumerate}
+
+Para esta query se ha usado el método de \textit{RDDs}. 
+\begin{enumerate}
+  \item Seleccionar las zonas de inicio y final del trayecto (\textit{select}).
+  \item Descartar las zonas desconocidas con ID 264 (\textit{where}).
+  \item Convertir a RDD
+  \item Agrupar en una tupla conteniendo las dos zonas y una variable que cuenta el número de elementos. (\textit{map}).
+  \item Contar los elementos de cada grupo (\textit{reduceByKey()})
+\end{enumerate}
 
 
 \subsubsection*{Evaluación de la eficiencia}
-\svgfigure[.7]{q2_perf}{Eficiencia de la \textit{query} 2}
+Como podemos observar en la gráfica mostrando el tiempo de ejecución para las distintas queries de la segunda pregunta, \textit{RDDs} tiene una peor eficiencia comparado con \textit{SQL} o \textit{PySpark SQL}.
+
+\svgfigure[.7]{q2_perf}{Eficiencia de las \textit{queries} 2}
 
 
 
 
-\subsection{Porcentaje de propina por número de pasajeros}
+\subsection{Query 3: Porcentaje de propina por número de pasajeros}
 % PysparkSQL
+Para comparar el porcentaje de propina por número de pasajeros es necesario hallar el valor relativo de la propina, que es computado dividiendo el valor de la propina (\textbf{\textit{Tip\_amount}}) entre el valor total del viaje (\textbf{\textit{Total\_amount}}). 
 
+Para realizar ésta query se ha usado el método de \textit{PySpark SQL}. Para ello, se han seguido los siguientes pasos:
+\begin{enumerate}
+  \item Transformar cada entrada en una tupla con el numero de pasajeros (\textit{select}).
+  \item Calcular el porcentaje de propina (\textit{try\_divide}).
+  \item Ordenar los resultados en orden ascendente de pasajeros (\textit{sort}).
+\end{enumerate}
+
+
+\noindent
+El resultado de la \textit{query} queda ilustrado en la \figref{q3}.
 
 \svgfigure[.7]{q3}{Resultado de la \textit{query} 3}
